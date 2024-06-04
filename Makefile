@@ -8,8 +8,8 @@ check:
 file:
 	clush -m sshpass-file -w 10.48.220.55
 pem:
-	clush -m sshpass-pem -w ec2-user@ec2-52-88-233-58.us-west-2.compute.amazonaws.com
+	clush -m sshpass-pem -w ec2-user@10.3.4.[229,244,254]
 rem:
 	sudo pip uninstall clustershell
 aos:
-	clush -m aos -w aos-sc-r0fi8jts
+	clush -m aos -w aos-sc-[r0fi8jts,z3k6t72,yz5ncrtv]
