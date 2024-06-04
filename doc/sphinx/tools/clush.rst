@@ -630,7 +630,7 @@ Make sure you have *sshpass(1)* installed on your operating system and install
 the sshpass run mode by creating ``sshpass.conf`` in ``clush.conf.d``::
 
     $ cd /etc/clustershell/clush.conf.d  # or $CLUSTERSHELL_CFGDIR/clush.conf.d
-    $ cp sshpass.conf.example sshpass.conf
+    $ cp sshpass.conf sshpass.conf
 
 Then, run *clush* with ``--mode=sshpass`` (or ``-m sshpass``) to activate this
 run mode. You will be prompted for a password that will be forwarded on stdin

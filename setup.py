@@ -25,7 +25,7 @@ from setuptools import setup, find_packages
 
 VERSION = '1.9.2'
 
-CFGDIR = 'etc/clustershell'
+CFGDIR = '/etc/clustershell'
 MANDIR = 'share/man'
 
 # Dependencies (for pip install)
@@ -40,7 +40,7 @@ setup(name='ClusterShell',
                     'conf/groups.conf',
                     'conf/topology.conf.example']),
                   (os.path.join(CFGDIR, 'clush.conf.d'),
-                   ['conf/clush.conf.d/sshpass.conf.example',
+                   ['conf/clush.conf.d/sshpass.conf',
                     'conf/clush.conf.d/sudo.conf.example',
                     'conf/clush.conf.d/README']),
                   (os.path.join(CFGDIR, 'groups.conf.d'),

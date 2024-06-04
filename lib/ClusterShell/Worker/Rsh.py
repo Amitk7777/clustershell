@@ -70,6 +70,8 @@ class RshClient(ExecClient):
         # force the exit status to be printed out
         cmd_l.append("; echo XXRETCODE: $?")
 
+        print("Rsh.py: RshClient: cmd_l: %s" % cmd_l)
+
         return (cmd_l, None)
 
     def _on_nodeset_msgline(self, nodes, msg, sname):
@@ -130,6 +132,8 @@ class RcpClient(CopyClient):
                 cmd_l.append("%s@%s:%s" % (user, self.key, self.dest))
             else:
                 cmd_l.append("%s:%s" % (self.key, self.dest))
+        
+        print("Rsh.py: R'c'pClient: cmd_l: %s" % cmd_l)
 
         return (cmd_l, None)
 

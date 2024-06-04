@@ -1,0 +1,5 @@
+1. change cfdir address to current dir adddress
+2. sshpass.conf.example to sshpass.conf (change names used evrywhere using vscode search feature)
+3. verbosity in clush.conf to 11 
+4. Makefile for ease install and run
+5. 

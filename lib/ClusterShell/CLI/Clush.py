@@ -720,9 +720,18 @@ def run_command(task, cmd, ns, timeout, display, remote, trytree):
 
     stdin = task.default("USER_stdin_worker")      # stdin forwarding?
     prompt_passwd = task.default("USER_password_prompt")  # from --mode
+
+    display.vprint_err(VERB_DEBUG,"clush: running command: %s" % cmd)
+    display.vprint_err(VERB_DEBUG,"clush: stdin: %s" % stdin)
+    display.vprint_err(VERB_DEBUG,"clush: prompt_passwd: %s" % prompt_passwd)
+    
     worker = task.shell(cmd, nodes=ns, handler=handler, timeout=timeout,
                         remote=remote, tree=trytree,
                         stdin=stdin or prompt_passwd is not None)
+    display.vprint_err(VERB_DEBUG,"clush: worker: %s" % worker)
+    display.vprint_err(VERB_DEBUG,"clush: ns: %s" % ns)
+    display.vprint_err(VERB_DEBUG,"clush: worker.task: %s" % worker.task)
+
     if ns is None:
         worker.set_key('LOCAL')
     if prompt_passwd:
@@ -860,6 +869,12 @@ def main():
     parser.install_connector_options()
 
     (options, args) = parser.parse_args()
+
+    # display.vprint_err(VERB_DEBUG,"options: ",options)
+    # display.vprint_err(VERB_DEBUG,"args: ",args)
+
+    # print("options: ",options,"\n")
+    # print("args: ",args,"\n")
 
     set_std_group_resolver_config(options.groupsconf)
 

@@ -788,6 +788,7 @@ class Task(object):
     def _resume(self):
         """Resume task - called from self thread."""
         assert self.thread == threading.current_thread()
+        print("Task.py: _resume: resume was task_self()  --special")
         try:
             try:
                 self._reset()
@@ -828,8 +829,10 @@ class Task(object):
         self._suspend_cond.atomic_dec()
 
         if self._is_task_self():
+            print("Task.py: resume: task is task_self()")
             self._resume()
         else:
+            print("Task.py: resume: task is not task_self()")
             self._resume_thread()
 
     def run(self, command=None, **kwargs):
@@ -856,6 +859,9 @@ class Task(object):
         sets an hard limit of task execution time. In that case, a TimeoutError
         exception is raised if this delay is reached.
         """
+
+        print("Task.py: run: --see mee ----command=%s, kwargs=%s" % (command, kwargs))
+        
         worker = None
         timeout = None
 

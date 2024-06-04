@@ -76,6 +76,7 @@ class PdshClient(ExecClient):
 
         cmd_l.append("-w %s" % self.key)
         cmd_l.append("%s" % self.command)
+        print("Pdsh.py: Pd's'pClient: cmd_l: %s" % cmd_l)
 
         return (cmd_l, pdsh_env)
 
@@ -213,7 +214,7 @@ class PdcpClient(CopyClient, PdshClient):
 
         cmd_l.append(self.source)
         cmd_l.append(self.dest)
-
+        print("Pdsh.py: PdcpClient: cmd_l: %s" % cmd_l)
         return (cmd_l, None)
 
 

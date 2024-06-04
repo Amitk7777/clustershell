@@ -75,6 +75,8 @@ class SshClient(ExecClient):
 
         cmd_l.append("%s" % self.key)
         cmd_l.append("%s" % self.command)
+        
+        print("ssh.py: cmd_l:", cmd_l)
 
         return (cmd_l, None)
 

@@ -59,6 +59,8 @@ class PopenClient(StreamClient):
         if task.info("debug", False):
             task.info("print_debug")(task, "POPEN: %s" % self.worker.command)
 
+        print("Popen.py: PopenClient: _start: self.worker.command: %s" % self.worker.command)
+        
         self.worker._on_start(self.key)
         return self
 

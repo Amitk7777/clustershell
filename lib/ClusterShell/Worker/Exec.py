@@ -60,6 +60,8 @@ def _replace_cmd(pattern, node, rank):
     except (KeyError, ValueError) as error:
         msg = "%s is not a valid pattern, use '%%%%' to escape '%%'" % error
         raise WorkerError(msg)
+
+    print("Exec.py: _replace_cmd: pattern: %s, node: %s, rank: %s, cmd: %s" % (pattern, node, rank, cmd))
     return cmd
 
 class ExecClient(EngineClient):
@@ -91,6 +93,7 @@ class ExecClient(EngineClient):
         of string, and a dict of additional environment variables. None could
         be returned if no environment change is required.
         """
+        print("Exec.py: ExecClient: _build_cmd: self.command: %s, self.key: %s, self.rank: %s" % (self.command, self.key, self.rank))
         return (_replace_cmd(self.command, self.key, self.rank), None)
 
     def _start(self):
@@ -111,7 +114,9 @@ class ExecClient(EngineClient):
                 task.info("print_debug")(task, "%s: %s" % (name, ' '.join(cmd)))
 
         self.popen = self._exec_nonblock(cmd, env=cmd_env, shell=shell)
+        print("Exec.py: ExecClient: _start: self.popen: %s, cmd: %s, cmd_env: %s, shell: %s" % (self.popen, cmd, cmd_env, shell))
         self._on_nodeset_start(self.key)
+        print("Exec.py: ExecClient: _start: self.key: %s" % self.key)
         return self
 
     def _close(self, abort, timeout):
@@ -303,6 +308,7 @@ class ExecWorker(DistantWorker):
         Additional arguments in `kwargs' will be used for client creation.
         There will be one client per node in self.nodes
         """
+        print("Exec.py: ExecWorker: _create_clients: self.command: %s, self.source: %s, self.dest: %s" % (self.command, self.source, self.dest) )
         # do not iterate if special %hosts placeholder is found in command
         if self.command and ('%hosts' in self.command or
                              '%{hosts}' in self.command):
