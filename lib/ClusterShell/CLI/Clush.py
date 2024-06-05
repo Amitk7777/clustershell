@@ -1066,6 +1066,7 @@ def main():
         task.set_default("USER_password_prompt", ask_pass())
 
     if options.worker:
+        display.vprint(VERB_DEBUG, "Loading worker '%s'" % options.worker)
         try:
             if options.remote == 'no':
                 task.set_default('local_worker',
@@ -1085,6 +1086,9 @@ def main():
             gws = task.topology.inner_node_count() - roots
             msg = "enabling tree topology (%d gateways)" % gws
             print("clush: %s" % msg, file=sys.stderr)
+    
+    display.vprint(VERB_DEBUG,"Loading worker: %s" % options.worker)
+    display.vprint(VERB_DEBUG,"Loading worker: %s" % task.default('local_worker'))
 
     if options.grooming_delay:
         if config.verbosity >= VERB_VERB:

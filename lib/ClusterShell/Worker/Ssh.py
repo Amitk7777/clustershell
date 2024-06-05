@@ -139,7 +139,7 @@ class ScpClient(CopyClient):
                 cmd_l.append("%s@[%s]:%s" % (user, self.key, self.dest))
             else:
                 cmd_l.append("[%s]:%s" % (self.key, self.dest))
-
+        print("ssh.py: scpclient: cmd_l:", cmd_l)
         return (cmd_l, None)
 
 class WorkerSsh(ExecWorker):

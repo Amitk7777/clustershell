@@ -179,8 +179,8 @@ class PdcpClient(CopyClient, PdshClient):
 
     def __init__(self, node, source, dest, worker, stderr, timeout, autoclose,
                  preserve, reverse, rank=None):
-        CopyClient.__init__(self, node, source, dest, worker, stderr, timeout,
-                            autoclose, preserve, reverse, rank)
+        ExecClient.__init__(self, node, command, worker, stderr, timeout,
+                            autoclose, rank)
         PdshClient.__init__(self, node, None, worker, stderr, timeout,
                             autoclose, rank)
 
