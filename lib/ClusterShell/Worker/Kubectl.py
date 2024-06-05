@@ -31,7 +31,7 @@ import shlex
 from ClusterShell.Worker.Exec import ExecClient, CopyClient, ExecWorker
 
 
-class aosClient(ExecClient):
+class kubectlClient(ExecClient):
     """
     Ssh EngineClient.
     """
@@ -45,17 +45,17 @@ class aosClient(ExecClient):
         # kubectl exec -i -n ncs-system aos-sc-r0fi8jts -- /bin/sh -c "cat  ok.txt"
         tmp = self.command
         # tmp="'" + tmp + "'"
-        print("ssh.py: tmp:", tmp)
-        print("ssh.py: self.command:", self.command)
+        print("kubectl.py: tmp:", tmp)
+        print("kubectl.py: self.command:", self.command)
         # cmd_l = ["kubectl", "exec", "-it", "-n", "ncs-system", self.key, "--", "/bin/sh"]
-        cmd_l = ["kubectl", "exec", "-i", "-n", "ncs-system", self.key, "--", "/bin/sh", "-c", tmp]
+        cmd_l = ["kubectl", "exec", "-i", "-n", "ncs-system", self.key, "--", "/bin/sh", "-c", self.command]
         # if command is cat ok.txt then I should append 'cat ok.txt' to cmd_l
         
         return (cmd_l, None)
         task = self.worker.task
-        path = task.info("aos_path") or "kubectl"
-        user = task.info("aos_user")
-        options = task.info("aos_options")
+        path = task.info("kubectl_path") or "kubectl"
+        user = task.info("kubectl_user")
+        options = task.info("kubectl_options")
 
         # Build ssh command
         cmd_l = [os.path.expanduser(pathc) for pathc in shlex.split(path)]
@@ -85,11 +85,11 @@ class aosClient(ExecClient):
         cmd_l.append("%s" % self.key)
         cmd_l.append("%s" % self.command)
         
-        print("ssh.py: cmd_l:", cmd_l)
+        print("kubectl.py: cmd_l:", cmd_l)
 
         return (cmd_l, None)
 
-class aoscpClient(CopyClient):
+class kubectlcpClient(CopyClient):
     """
     Scp EngineClient.
     """
@@ -143,13 +143,17 @@ class aoscpClient(CopyClient):
 
             # return "kubectl cp -n ncs-system aos-sc-r0fi8jts:ok.txt  /etc/clustershell/ok.txt"
             # return (["kubectl", "cp", "-n", "ncs-system", "%s:%s" % (self.key, self.source), self.dest], None)
-            tmp = self.dest
-            if tmp[-1] == '/':
-                tmp = tmp[:-1]
-            # find the source file name out of /home/../randomfile.txt and append it to the dest
-            print(" os.path.basename(self.source):", os.path.basename(self.source))
-            tmp = tmp + "/" + os.path.basename(self.source)
-            cmd_l = ["kubectl", "cp", "-n", "ncs-system", "%s:%s" % (self.key, self.source), tmp]
+            # tmp = self.dest
+            # if tmp[-1] == '/':
+            #     tmp = tmp[:-1]
+            # # find the source file name out of /home/../randomfile.txt and append it to the dest
+            # print(" os.path.basename(self.source):", os.path.basename(self.source))
+            # tmp = tmp + "/" + os.path.basename(self.source)
+            cmd_l = ["kubectl", "cp", "-n", "ncs-system", "%s:%s" % (self.key, self.source)]
+
+            # pod name gets appended in the end of the file name
+            cmd_l.append(os.path.join(self.dest, "%s.%s" % \
+                         (os.path.basename(self.source), self.key)))
 
             # if user:
             #     cmd_l.append("%s@[%s]:%s" % (user, self.key, self.source))
@@ -171,10 +175,10 @@ class aoscpClient(CopyClient):
             #     cmd_l.append("%s@[%s]:%s" % (user, self.key, self.dest))
             # else:
             #     cmd_l.append("[%s]:%s" % (self.key, self.dest))
-        print("aos.py: aoscpclient: cmd_l:", cmd_l)
+        print("kubectl.py: kubectlcpclient: cmd_l:", cmd_l)
         return (cmd_l, None)
 
-class WorkerSsh(ExecWorker):
+class WorkerKubectl(ExecWorker):
     """
     ClusterShell ssh-based worker Class.
 
@@ -192,7 +196,7 @@ class WorkerSsh(ExecWorker):
        >>> task.resume()              # run
     """
 
-    SHELL_CLASS = aosClient
-    COPY_CLASS = aoscpClient
+    SHELL_CLASS = kubectlClient
+    COPY_CLASS = kubectlcpClient
 
-WORKER_CLASS=WorkerSsh
+WORKER_CLASS=WorkerKubectl

@@ -1,5 +1,5 @@
 clean:
-	sudo rm -rf build dist lib/ClusterShell.* groups.conf clush.conf clush.conf.d groups.conf.d groups.d topology.conf.example
+	sudo rm -rf build dist lib/ClusterShell.egg-info groups.conf clush.conf clush.conf.d groups.conf.d groups.d topology.conf.example
 run:
 	sudo python3 setup.py build 
 	sudo python3 setup.py install
