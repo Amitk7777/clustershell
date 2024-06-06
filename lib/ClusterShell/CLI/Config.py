@@ -114,6 +114,8 @@ class ClushConfig(ConfigParser, object):
                     # add config declared in clush.conf.d file parts
                     for cfgfn in sorted(glob.glob('%s/*.conf' % confdir)):
                         # ignore files that cannot be read
+                        print("cfgfn:",cfgfn)
+                        print("self.read(cfgfn):",self.read(cfgfn)  )
                         self.parsed += self.read(cfgfn)
             except (NoSectionError, NoOptionError):
                 pass
@@ -290,7 +292,27 @@ class ClushConfig(ConfigParser, object):
     def rsh_options(self):
         """rsh_options value as a string (optional)"""
         return self._get_mode_optional("rsh_options")
+    
+    @property
+    def kubectl_path(self):
+        """kubectl_path value as a string (optional)"""
+        return self._get_mode_optional("kubectl_path")
 
+    @property
+    def kubectlcp_path(self):
+        """kubectlcp_path value as a string (optional)"""
+        return self._get_mode_optional("kubectlcp_path")
+
+    @property
+    def kubectl_options(self):
+        """kubectl_options value as a string (optional)"""
+        return self._get_mode_optional("kubectl_options")
+    
+    @property
+    def kubectlcp_options(self):
+        """kubectlcp_options value as a string (optional)"""
+        return self._get_mode_optional("kubectlcp_options")
+    
     @property
     def color(self):
         """color value as a string in (never, always, auto)"""

@@ -881,8 +881,14 @@ def main():
     #
     # Load config file and apply overrides
     #
-    config = ClushConfig(options, options.conf)
+    print("options: ",options)
+    print("options.conf: ",options.conf)
 
+    config = ClushConfig(options, options.conf)
+    # if config.ssh_path:
+    print("config.ssh_path:",config.ssh_path)
+    # if config.kubectl_path:
+    print("config.kubectl_path:",config.kubectl_path)
     # Initialize logging
     if config.verbosity >= VERB_DEBUG:
         logging.basicConfig(level=logging.DEBUG)
@@ -1051,6 +1057,9 @@ def main():
         config.set_mode(options.mode)
         display.vprint(VERB_VERB, "[%s] run mode activated" % options.mode)
 
+    print("1060-config.ssh_path:",config.ssh_path)
+    print("1061-config.kubectl_path:",config.kubectl_path)
+
     command_prefix = config.command_prefix
     if command_prefix:
         # keep command_prefix for interactive mode ttyloop()
@@ -1101,8 +1110,10 @@ def main():
         task.set_info("grooming_delay", 0)
 
     if config.ssh_user:
+        print("config.ssh_user",config.ssh_user)
         task.set_info("ssh_user", config.ssh_user)
     if config.ssh_path:
+        print("config.ssh_path",config.ssh_path)
         task.set_info("ssh_path", config.ssh_path)
     if config.ssh_options:
         task.set_info("ssh_options", config.ssh_options)
@@ -1116,6 +1127,14 @@ def main():
         task.set_info("rcp_path", config.rcp_path)
     if config.rsh_options:
         task.set_info("rsh_options", config.rsh_options)
+    if config.kubectl_path:
+        task.set_info("kubectl_path", config.kubectl_path)
+    if config.kubectl_options:
+        task.set_info("kubectl_options", config.kubectl_options)
+    if config.kubectlcp_path:
+        task.set_info("kubectlcp_path", config.kubectlcp_path)
+    if config.kubectlcp_options:
+        task.set_info("kubectlcp_options", config.kubectlcp_options)
 
     # Set detailed timeout values
     task.set_info("connect_timeout", config.connect_timeout)
